@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name":"name",
+    "description": "desc",
+    "version": "0.0.1",
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "Open"
+    },
+    "permissions": [
+        "scripting",
+        "tabs",
+        "notifications"
+    ],
+    "host_permissions": [
+        "https://www.linkedin.com/*"
+      ]
+
+ 
+  }
+  
