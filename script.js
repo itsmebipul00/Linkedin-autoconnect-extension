@@ -13,7 +13,7 @@ const handleConnect = async () => {
 	} else {
 		conectBtn.innerText = 'Connect'
 		await chrome.tabs.sendMessage(tab.id, {
-			breakFromWhileLoop: true,
+			loopbreak: true,
 		})
 	}
 }

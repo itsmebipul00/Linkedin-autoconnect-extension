@@ -62,17 +62,18 @@ function sleepOne(i, btns) {
 	)
 }
 
-let breakFromWhileLoop = false
-chrome.runtime.onMessage.addListener(function (request) {
-	if (request.breakFromWhileLoop) {
-		breakFromWhileLoop = true
-	}
-})
 ;(async () => {
+	let breakFromWhileLoop = false
 	const connectBtns = document.querySelectorAll('button')
 	const btns = [...connectBtns].filter(
 		btn => btn.innerText === 'Connect'
 	)
+
+	chrome.runtime.onMessage.addListener(function (request) {
+		if (request.loopbreak) {
+			breakFromWhileLoop = true
+		}
+	})
 
 	let i = 0
 	while (i < btns.length) {
