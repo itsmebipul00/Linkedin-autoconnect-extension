@@ -5,7 +5,6 @@ function sleepThree() {
 				'[aria-label="We don\'t know each other"]'
 			)
 			const connect = document.querySelector('[aria-label="Connect"]')
-			console.log(dontKnow, connect)
 			if (!connect && !dontKnow) {
 				clearTimeout(timerThree)
 			} else if (!dontKnow) {
@@ -47,48 +46,44 @@ function sleepTwo() {
 	})
 }
 
-// function sleepOne(i, btns) {
-// 	return new Promise(resolve =>
-// 		setTimeout(
-// 			async i => {
-// 				btns[i].click()
-// 				await sleepThree()
-// 				await sleepTwo()
-// 				await sleepFour()
-// 				resolve()
-// 			},
-// 			2000,
-// 			i
-// 		)
-// 	)
-// }
+function sleepOne(i, btns) {
+	return new Promise(resolve =>
+		setTimeout(
+			async i => {
+				btns[i].click()
+				await sleepThree()
+				await sleepTwo()
+				await sleepFour()
+				resolve()
+			},
+			2000,
+			i
+		)
+	)
+}
 
+let breakFromWhileLoop = false
+chrome.runtime.onMessage.addListener(function (request) {
+	if (request.breakFromWhileLoop) {
+		breakFromWhileLoop = true
+	}
+})
 ;(async () => {
 	const connectBtns = document.querySelectorAll('button')
 	const btns = [...connectBtns].filter(
 		btn => btn.innerText === 'Connect'
 	)
+
 	let i = 0
-	let timer
 	while (i < btns.length) {
-		await new Promise(resolve => {
-			timer = setTimeout(
-				async i => {
-					btns[i].click()
-					await sleepThree()
-					await sleepTwo()
-					await sleepFour()
-					resolve()
-				},
-				3000,
-				i
-			)
-		})
-		i++
+		if (!!breakFromWhileLoop) {
+			break
+		}
 		await chrome.runtime.sendMessage({
 			total: btns.length,
 			current: i,
-			timer: timer,
 		})
+		await sleepOne(i, btns)
+		i++
 	}
 })()
