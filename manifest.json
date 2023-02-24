@@ -7,6 +7,9 @@
       "default_popup": "popup.html",
       "default_title": "Open"
     },
+    "icons": {
+      "16": "linkedin_logo.png"
+    },
     "permissions": [
         "scripting",
         "tabs",
@@ -14,8 +17,6 @@
     ],
     "host_permissions": [
         "https://www.linkedin.com/*"
-      ]
-
- 
+      ] 
   }
   

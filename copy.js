@@ -1,4 +1,4 @@
-function sleepThree() {
+function sleepOne() {
 	return new Promise(resolve => {
 		const timerThree = setTimeout(() => {
 			const dontKnow = document.querySelector(
@@ -6,6 +6,7 @@ function sleepThree() {
 			)
 			const connect = document.querySelector('[aria-label="Connect"]')
 			if (!connect && !dontKnow) {
+				console.log('timerThree')
 				clearTimeout(timerThree)
 			} else if (!dontKnow) {
 				connect.click()
@@ -18,25 +19,12 @@ function sleepThree() {
 	})
 }
 
-function sleepFour() {
-	return new Promise(resolve => {
-		const timerFour = setTimeout(() => {
-			const sendbtn = document.querySelector(
-				'[aria-label="Send now"]'
-			)
-			if (!!sendbtn) {
-				sendbtn.click()
-			} else clearTimeout(timerFour)
-			resolve()
-		}, 1500)
-	})
-}
-
 function sleepTwo() {
 	return new Promise(resolve => {
 		const timerTwo = setTimeout(() => {
 			const connect = document.querySelector('[aria-label="Connect"]')
 			if (!connect) {
+				console.log('timerTwo')
 				clearTimeout(timerTwo)
 			} else {
 				connect.click()
@@ -46,20 +34,35 @@ function sleepTwo() {
 	})
 }
 
-function sleepOne(i, btns) {
-	return new Promise(resolve =>
+function sleepThree() {
+	return new Promise(resolve => {
+		const timerFour = setTimeout(() => {
+			const sendbtn = document.querySelector(
+				'[aria-label="Send now"]'
+			)
+			if (!sendbtn) {
+				console.log('timerFour')
+				clearTimeout(timerFour)
+			} else sendbtn.click()
+			resolve()
+		}, 1500)
+	})
+}
+
+function resolveConnectModals(i, btns) {
+	return new Promise(resolve => {
 		setTimeout(
 			async i => {
 				btns[i].click()
-				await sleepThree()
+				await sleepOne()
 				await sleepTwo()
-				await sleepFour()
+				await sleepThree()
 				resolve()
 			},
-			2000,
+			3000,
 			i
 		)
-	)
+	})
 }
 
 ;(async () => {
@@ -75,16 +78,18 @@ function sleepOne(i, btns) {
 		}
 	})
 
+	if (breakFromWhileLoop) return
+
 	let i = 0
 	while (i < btns.length) {
 		if (!!breakFromWhileLoop) {
 			break
 		}
+		await resolveConnectModals(i, btns)
 		await chrome.runtime.sendMessage({
 			total: btns.length,
-			current: i,
+			current: i + 1,
 		})
-		await sleepOne(i, btns)
 		i++
 	}
 })()

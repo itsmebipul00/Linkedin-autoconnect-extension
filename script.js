@@ -1,5 +1,7 @@
 const conectBtn = document.querySelector('.connect-btn')
 const invitations = document.querySelector('.invitations')
+let current = 0
+let total = 5
 
 const handleConnect = async () => {
 	const tab = await getCurrentTab()
@@ -27,6 +29,8 @@ const getCurrentTab = async () => {
 chrome.runtime.onMessage.addListener(function (request) {
 	console.log(request)
 	invitations.innerText = `${request.current} of ${request.total} requests sent`
+	current = request.current
+	total = request.total
 })
 
 conectBtn.addEventListener('click', handleConnect)

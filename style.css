@@ -1,6 +1,48 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    width: 20rem;
+    height: 20rem;
+}
+
 .autoconnect{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: rgb(45, 252, 183);
+    
+
 }
 
+.primary-heading{
+    font-size: 1.5rem;
+    text-align: center;
+    height: fit-content;
+    
+}
+
+
+.connect-btn{
+    width: 6rem;
+    height: 10rem;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    color: black;
+    border: 2px solid rgb(86, 86, 86);
+}
+
+.connect-btn:hover{
+    cursor: pointer;
+    background-color: rgb(45, 252, 183);
+}
+
+.invitations{
+    font-size: 1.5rem;
+    text-align: center;
+    color: rgb(86, 86, 86);
+}
